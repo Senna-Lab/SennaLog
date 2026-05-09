@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'My Site',
+  title: 'Senna Dev Archive',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
 
@@ -22,8 +22,8 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'no', // Usually your GitHub org/user name.
+  projectName: 'SennaLog', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -32,7 +32,7 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', "ko"],
   },
 
   presets: [
@@ -75,21 +75,21 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'My Site',
-      logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
-      },
+      title: 'Senna Dev Archive',
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Projects',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          to: '/blog',
+          label: 'Blog',
+          position: 'left',
+        },
+        {
+          href: 'https://github.com/Senna-Lab',
           label: 'GitHub',
           position: 'right',
         },
@@ -107,7 +107,7 @@ const config: Config = {
             },
           ],
         },
-        {
+        /*{
           title: 'Community',
           items: [
             {
@@ -123,7 +123,7 @@ const config: Config = {
               href: 'https://x.com/docusaurus',
             },
           ],
-        },
+        },*/
         {
           title: 'More',
           items: [
@@ -133,7 +133,7 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/Senna-Lab',
             },
           ],
         },

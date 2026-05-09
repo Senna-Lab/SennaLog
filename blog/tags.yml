@@ -1,19 +1,15 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+fanview:
+  label: FanView
+  permalink: /projects/fanview
+  description: fanview
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+devlog:
+  label: DevLog
+  permalink: /*/devlog
+  description: devlog
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+blog:
+  label: Blog
+  permalink: /blog
+  description: blog
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description

@@ -6,24 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6b3133a2-810e-4636-8d5e-424a0296aed0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/intro.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/projects/fanview/devlog/2026-05-10-first-devlog.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/projects/fanview/devlog/2026-05-10-first-devlog.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-basics/_category_.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-basics/congratulations.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-basics/create-a-blog-post.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-basics/create-a-document.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-basics/create-a-page.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-basics/deploy-your-site.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-basics/markdown-features.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-extras/_category_.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-extras/img/docsVersionDropdown.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-extras/img/localeDropdown.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-extras/manage-docs-versions.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tutorial-extras/translate-your-site.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docusaurus.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/docusaurus.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidebars.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sidebars.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +78,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1778366646169</updated>
-      <workItem from="1778366648806" duration="5447000" />
+      <workItem from="1778366648806" duration="5970000" />
     </task>
     <servers />
   </component>

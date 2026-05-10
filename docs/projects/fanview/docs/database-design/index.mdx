@@ -1,0 +1,261 @@
+---
+sidebar_position: 1
+slug: fanview-database-design
+title: FanView Database Design
+authors: Senna
+tags: [fanview]
+---
+
+
+import ERDiagram from './ERDiagram';
+
+
+
+# DB 셋팅
+
+
+---
+
+## Final design decisions, explained
+
+**Agency** is its own table because agencies manage multiple artists, and you'll want to filter "all HYBE fansigns" or "all SM artists" eventually. A string field on Artist would make that impossible without messy `LIKE` queries and normalization headaches.
+
+**Artist** has `agencyId` as a nullable FK — some artists are independent or agency is simply unknown. `artistType` as enum prevents filter drift. `country` is nullable for the same reason as agency — not always known at entry time.
+
+**Store** has `storeType` and `country` as separate structured fields rather than free text. This keeps the filter panel accurate — "show online shops only" or "show Korean stores only" works cleanly against indexed enum and string columns.
+
+**Event** is the core table and deliberately has several nullable date fields — `applicationStart`, `winnerDate` are often not announced simultaneously with the event. Forcing non-null means admins either delay entry or enter placeholder data, both of which are worse than null.
+
+`applyMethod` is a single nullable enum — one method per event, nullable because the method isn't always confirmed in the initial notice.
+
+`applicationDetail` is a free-text nullable field for anything structured fields can't capture, and doubles as copy for future auto-posting.
+
+`status` is a stored enum (`UPCOMING`, `ONGOING`, `ENDED`) updated by cron — redundant with the dates but necessary for fast indexed filtering without date arithmetic on every query.
+
+`searchVector` is a Postgres `tsvector` column maintained by a DB trigger. Weighted: title gets `'A'`, artist name gets `'B'`, location gets `'C'`. No separate search service needed.
+
+**Audit fields** (`createdAt`, `createdBy`, `updatedAt`, `updatedBy`) on every table except `AdminUser` itself. `createdBy` and `updatedBy` are nullable FKs to `AdminUser` — nullable because seed data and cron jobs have no human author.
+
+**All PKs** are `cuid()` — non-guessable, index-friendly, generated client-side without a DB roundtrip.
+
+**All country fields** store ISO 3166-1 alpha-2 codes (`KR`, `JP`, `US`) — consistent, sortable, never drifts.
+
+---
+## Entity Relationship Diagram
+
+<ERDiagram />
+---
+
+## complete Prisma schema:
+
+```prisma
+// ─── Enums ───────────────────────────────────────────────
+
+enum ArtistType {
+  GIRL_GROUP
+  BOY_GROUP
+  SOLO_FEMALE
+  SOLO_MALE
+  MIXED_GROUP
+}
+
+enum StoreType {
+  ONLINE_SHOP
+  OFFLINE_STORE
+  APP_PLATFORM      // Weverse, Bubble, etc.
+  ALBUM_SHOP
+}
+
+enum EventType {
+  ONLINE
+  OFFLINE
+  HYBRID
+}
+
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  ENDED
+}
+
+enum ApplyMethod {
+  ONLINE_PURCHASE        // 온라인 구매
+  OFFLINE_PURCHASE       // 오프라인 구매
+  FIRST_COME_FIRST_SERVE // 선착순
+  LUCKY_DRAW             // 추첨
+  GOOD_PURCHASE          // 우수구매
+  PRE_ORDER              // 사전예약
+  ALBUM_QR               // 앨범 내 QR
+  OTHER
+}
+
+// ─── Models ──────────────────────────────────────────────
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+
+  createdAt    DateTime @default(now())
+  lastLoginAt  DateTime?
+
+  // reverse relations for audit trail
+  agenciesCreated  Agency[]  @relation("AgencyCreatedBy")
+  agenciesUpdated  Agency[]  @relation("AgencyUpdatedBy")
+  artistsCreated   Artist[]  @relation("ArtistCreatedBy")
+  artistsUpdated   Artist[]  @relation("ArtistUpdatedBy")
+  storesCreated    Store[]   @relation("StoreCreatedBy")
+  storesUpdated    Store[]   @relation("StoreUpdatedBy")
+  eventsCreated    Event[]   @relation("EventCreatedBy")
+  eventsUpdated    Event[]   @relation("EventUpdatedBy")
+}
+
+model Agency {
+  id      String  @id @default(cuid())
+  name    String
+  slug    String  @unique
+  country String  // ISO 3166-1 alpha-2
+  logoUrl String?
+  artists Artist[]
+
+  createdAt     DateTime   @default(now())
+  createdBy     String?
+  updatedAt     DateTime   @updatedAt
+  updatedBy     String?
+
+  createdByUser AdminUser? @relation("AgencyCreatedBy", fields: [createdBy], references: [id])
+  updatedByUser AdminUser? @relation("AgencyUpdatedBy", fields: [updatedBy], references: [id])
+
+  @@index([slug])
+  @@index([country])
+}
+
+model Artist {
+  id         String     @id @default(cuid())
+  name       String
+  slug       String     @unique
+  artistType ArtistType
+  imageUrl   String?
+  country    String?    // ISO code — nullable
+
+  agencyId   String?
+  agency     Agency?    @relation(fields: [agencyId], references: [id])
+  events     Event[]
+
+  createdAt     DateTime   @default(now())
+  createdBy     String?
+  updatedAt     DateTime   @updatedAt
+  updatedBy     String?
+
+  createdByUser AdminUser? @relation("ArtistCreatedBy", fields: [createdBy], references: [id])
+  updatedByUser AdminUser? @relation("ArtistUpdatedBy", fields: [updatedBy], references: [id])
+
+  @@index([slug])
+  @@index([agencyId])
+  @@index([artistType])
+}
+
+model Store {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  storeType StoreType
+  country   String?   // ISO code — nullable
+  url       String?
+  events    Event[]
+
+  createdAt     DateTime   @default(now())
+  createdBy     String?
+  updatedAt     DateTime   @updatedAt
+  updatedBy     String?
+
+  createdByUser AdminUser? @relation("StoreCreatedBy", fields: [createdBy], references: [id])
+  updatedByUser AdminUser? @relation("StoreUpdatedBy", fields: [updatedBy], references: [id])
+
+  @@index([slug])
+  @@index([storeType])
+  @@index([country])
+}
+
+model Event {
+  id    String @id @default(cuid())
+  slug  String @unique  // {artistSlug}-{title-kebab}-{YYYYMMDD}
+  title String
+
+  // ── Relations
+  artistId String
+  artist   Artist  @relation(fields: [artistId], references: [id])
+  storeId  String?
+  store    Store?  @relation(fields: [storeId], references: [id])
+
+  // ── Classification
+  eventType   EventType
+  status      EventStatus @default(UPCOMING)  // updated by cron
+  applyMethod ApplyMethod?                    // nullable — not always known upfront
+  applicationDetail String?                  // free text, nullable
+
+  // ── Visibility
+  isPublic Boolean @default(true)
+  isOnline Boolean @default(false)
+
+  // ── Dates — all nullable, announced at different times
+  applicationStart DateTime?
+  applicationEnd   DateTime?
+  eventDate        DateTime?
+  winnerDate       DateTime?
+
+  // ── Location
+  location       String?  // venue name or platform name
+  locationDetail String?  // full address or platform URL
+
+  // ── Links
+  applicationUrl String?
+  noticeUrl      String?
+
+  // ── Media
+  imageUrl  String?
+  bannerUrl String?
+
+  // ── Search — maintained by DB trigger, GIN indexed
+  searchVector Unsupported("tsvector")?
+
+  // ── Audit
+  createdAt DateTime @default(now())
+  createdBy String?
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+
+  createdByUser AdminUser? @relation("EventCreatedBy", fields: [createdBy], references: [id])
+  updatedByUser AdminUser? @relation("EventUpdatedBy", fields: [updatedBy], references: [id])
+
+  // ── Indexes
+  @@index([artistId])
+  @@index([storeId])
+  @@index([status])
+  @@index([isPublic])
+  @@index([eventType])
+  @@index([applyMethod])
+  @@index([isPublic, status, eventDate(sort: Desc)])  // primary list query
+}
+```
+
+---
+
+## Summary of every design choice
+
+| Decision | Reason |
+|---|---|
+| `cuid()` PKs everywhere | Non-guessable, index-friendly, no DB roundtrip |
+| Agency as own table | Enables agency-level filtering, prevents name drift |
+| `artistType` as enum | Stable vocabulary, fast indexed filter |
+| `storeType` as enum | Same — clean filter options |
+| `country` as ISO code | Consistent, never drifts, sortable |
+| `applyMethod` single enum, nullable | One method per event, nullable beats wrong placeholder |
+| `applicationDetail` free text | Captures edge cases, future auto-post copy |
+| `status` stored enum + cron | Fast index filter without date arithmetic on every query |
+| All dates nullable | Announced at different times — null is honest |
+| `searchVector` tsvector | Native PG full-text search, no extra service |
+| Audit fields on all tables | Traceability — who created/changed what and when |
+| `createdBy`/`updatedBy` nullable FK | Cron jobs and seed data have no human author |
+| Named Prisma relations | Required when two FKs point to the same model |

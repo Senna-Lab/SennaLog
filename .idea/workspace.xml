@@ -5,7 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b3133a2-810e-4636-8d5e-424a0296aed0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/tags.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog/tags.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/intro.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/intro.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/projects/fanview/devlog/2026-05-10-first-devlog.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fanview/devlog/2026-05-10-first-devlog.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/projects/fanview/docs/architecture.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fanview/architecture.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/projects/fanview/docs/database-design/ERDiagram.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fanview/database-design/ERDiagram.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/projects/fanview/docs/database-design/_category_.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fanview/database-design/_category_.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/projects/fanview/docs/database-design/index.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fanview/database-design/index.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docusaurus.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/docusaurus.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidebars.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sidebars.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/css/custom_original.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +72,9 @@
       <recent name="C:\Users\89163\IdeaProjects\SennaLog\docs\projects\fanview\docs\database-design" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\89163\IdeaProjects\SennaLog\docs" />
+      <recent name="C:\Users\89163\IdeaProjects\SennaLog\docs\projects\fanview" />
+      <recent name="C:\Users\89163\IdeaProjects\SennaLog\docs\projects\fanview\devlog" />
       <recent name="C:\Users\89163\IdeaProjects\SennaLog\docs\projects\fanview\docs\database-design" />
     </key>
   </component>
@@ -78,7 +93,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1778366646169</updated>
-      <workItem from="1778366648806" duration="6212000" />
+      <workItem from="1778366648806" duration="9640000" />
     </task>
     <servers />
   </component>

@@ -1,44 +1,62 @@
-import type {ReactNode} from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import React from 'react';
 import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import Heading from '@theme/Heading';
+import Link from '@docusaurus/Link';
 
-import styles from './index.module.css';
+export default function Home() {
+    return (
+        <Layout
+            title="Senna Dev Archive"
+            description="Projects, devlogs, and engineering notes"
+        >
+            <main
+                style={{
+                    padding: '80px 24px',
+                    maxWidth: '900px',
+                    margin: '0 auto',
+                }}
+            >
+                <h1
+                    style={{
+                        fontSize: '4rem',
+                        marginBottom: '16px',
+                    }}
+                >
+                    Senna Dev Archive 🌸
+                </h1>
 
-function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
-  return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
-        </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
-}
+                <p
+                    style={{
+                        fontSize: '1.2rem',
+                        opacity: 0.8,
+                        marginBottom: '40px',
+                    }}
+                >
+                    Projects, devlogs, study notes,
+                    and engineering thoughts.
+                </p>
 
-export default function Home(): ReactNode {
-  const {siteConfig} = useDocusaurusContext();
-  return (
-    <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <HomepageHeader />
-      <main>
-        <HomepageFeatures />
-      </main>
-    </Layout>
-  );
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: '16px',
+                        flexWrap: 'wrap',
+                    }}
+                >
+                    <Link
+                        className="button button--primary button--lg"
+                        to="/docs/fanview/database-design"
+                    >
+                        View FanView Docs
+                    </Link>
+
+                    <Link
+                        className="button button--secondary button--lg"
+                        to="/blog"
+                    >
+                        Read Blog
+                    </Link>
+                </div>
+            </main>
+        </Layout>
+    );
 }
